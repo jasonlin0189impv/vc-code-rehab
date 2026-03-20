@@ -1,0 +1,84 @@
+{
+  "name": "vc-coding-limitation",
+  "displayName": "Code Rehab",
+  "description": "Track your manual coding tokens and get nagged into using AI. Your daily intervention for hand-written boilerplate.",
+  "version": "0.1.0",
+  "publisher": "YOUR_PUBLISHER_ID",
+  "license": "MIT",
+  "icon": "images/icon.png",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jasonlin0189impv/vc-code-rehab"
+  },
+  "homepage": "https://github.com/jasonlin0189impv/vc-code-rehab#readme",
+  "sponsor": {
+    "url": "https://github.com/sponsors/jasonlin0189impv"
+  },
+  "keywords": ["ai", "coding", "productivity", "token", "limitation"],
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": ["Other"],
+  "activationEvents": ["onStartupFinished"],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "vcCodingLimitation.showStats",
+        "title": "VC Coding Limitation: Show Token Stats"
+      },
+      {
+        "command": "vcCodingLimitation.resetToday",
+        "title": "VC Coding Limitation: Reset Today's Count"
+      },
+      {
+        "command": "vcCodingLimitation.pauseTracking",
+        "title": "VC Coding Limitation: Pause Tracking (1 hour)"
+      },
+      {
+        "command": "vcCodingLimitation.resumeTracking",
+        "title": "VC Coding Limitation: Resume Tracking"
+      }
+    ],
+    "configuration": {
+      "title": "VC Coding Limitation",
+      "properties": {
+        "vcCodingLimitation.dailyTokenLimit": {
+          "type": "number",
+          "default": 1000,
+          "minimum": 1,
+          "description": "Maximum manually typed tokens allowed per day before notifications begin."
+        },
+        "vcCodingLimitation.tokensPerExtraNotification": {
+          "type": "number",
+          "default": 50,
+          "minimum": 1,
+          "description": "How many additional manual tokens must be typed before showing the next warning after the daily limit is reached."
+        },
+        "vcCodingLimitation.manualTypingMaxChunkSize": {
+          "type": "number",
+          "default": 5,
+          "minimum": 1,
+          "maximum": 50,
+          "description": "Insertions larger than this character count are treated as AI/paste, not manual typing."
+        },
+        "vcCodingLimitation.showStatusBar": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show the token count in the status bar."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "build": "node esbuild.js",
+    "watch": "node esbuild.js --watch",
+    "vscode:prepublish": "node esbuild.js --production"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.85.0",
+    "@types/node": "^20.0.0",
+    "typescript": "^5.3.0",
+    "esbuild": "^0.20.0"
+  }
+}

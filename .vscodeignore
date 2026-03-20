@@ -1,0 +1,12 @@
+src/**
+tsconfig.json
+esbuild.js
+.eslintrc.json
+**/*.map
+**/*.ts
+!dist/**
+node_modules/**
+.vscode/launch.json
+.vscode/tasks.json
+.specify/**
+.claude/**
