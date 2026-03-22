@@ -1,9 +1,9 @@
 {
-  "name": "vc-coding-limitation",
+  "name": "vc-code-rehab",
   "displayName": "Code Rehab",
   "description": "Track your manual coding tokens and get nagged into using AI. Your daily intervention for hand-written boilerplate.",
   "version": "0.1.0",
-  "publisher": "YOUR_PUBLISHER_ID",
+  "publisher": "jasonlin0189impv",
   "license": "MIT",
   "icon": "images/icon.png",
   "repository": {
@@ -24,45 +24,45 @@
   "contributes": {
     "commands": [
       {
-        "command": "vcCodingLimitation.showStats",
-        "title": "VC Coding Limitation: Show Token Stats"
+        "command": "vcCodeRehab.showStats",
+        "title": "VC Code Rehab: Show Token Stats"
       },
       {
-        "command": "vcCodingLimitation.resetToday",
-        "title": "VC Coding Limitation: Reset Today's Count"
+        "command": "vcCodeRehab.resetToday",
+        "title": "VC Code Rehab: Reset Today's Count"
       },
       {
-        "command": "vcCodingLimitation.pauseTracking",
-        "title": "VC Coding Limitation: Pause Tracking (1 hour)"
+        "command": "vcCodeRehab.pauseTracking",
+        "title": "VC Code Rehab: Pause Tracking (1 hour)"
       },
       {
-        "command": "vcCodingLimitation.resumeTracking",
-        "title": "VC Coding Limitation: Resume Tracking"
+        "command": "vcCodeRehab.resumeTracking",
+        "title": "VC Code Rehab: Resume Tracking"
       }
     ],
     "configuration": {
-      "title": "VC Coding Limitation",
+      "title": "VC Code Rehab",
       "properties": {
-        "vcCodingLimitation.dailyTokenLimit": {
+        "vcCodeRehab.dailyTokenLimit": {
           "type": "number",
           "default": 1000,
           "minimum": 1,
           "description": "Maximum manually typed tokens allowed per day before notifications begin."
         },
-        "vcCodingLimitation.tokensPerExtraNotification": {
+        "vcCodeRehab.tokensPerExtraNotification": {
           "type": "number",
           "default": 50,
           "minimum": 1,
           "description": "How many additional manual tokens must be typed before showing the next warning after the daily limit is reached."
         },
-        "vcCodingLimitation.manualTypingMaxChunkSize": {
+        "vcCodeRehab.manualTypingMaxChunkSize": {
           "type": "number",
           "default": 5,
           "minimum": 1,
           "maximum": 50,
           "description": "Insertions larger than this character count are treated as AI/paste, not manual typing."
         },
-        "vcCodingLimitation.showStatusBar": {
+        "vcCodeRehab.showStatusBar": {
           "type": "boolean",
           "default": true,
           "description": "Show the token count in the status bar."
