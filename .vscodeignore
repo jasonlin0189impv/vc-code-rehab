@@ -1,3 +1,5 @@
+.env
+.env.*
 src/**
 tsconfig.json
 esbuild.js
