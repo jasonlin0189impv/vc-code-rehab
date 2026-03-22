@@ -35,7 +35,7 @@ Every keystroke is analysed. Small insertions (≤ 5 characters) are counted as 
 
 Click the status bar item or run **VC Coding Limitation: Show Token Stats** to open the stats panel.
 
-<img src="images/stats-preview.png" width="600" alt="Stats View"/>
+<img src="https://raw.githubusercontent.com/jasonlin0189impv/vc-code-rehab/main/images/stats-preview.png" width="600" alt="Stats View"/>
 
 The panel shows:
 
