@@ -3,7 +3,7 @@ import { DailyRecord } from './types';
 
 export class StatusBarManager {
   constructor(private item: vscode.StatusBarItem) {
-    this.item.command = 'vcCodingLimitation.showStats';
+    this.item.command = 'vcCodeRehab.showStats';
   }
 
   update(record: DailyRecord, limit: number): void {

@@ -71,7 +71,7 @@ export function activate(context: vscode.ExtensionContext): void {
   // --- Live config reload ---
   context.subscriptions.push(
     vscode.workspace.onDidChangeConfiguration((e) => {
-      if (e.affectsConfiguration('vcCodingLimitation')) {
+      if (e.affectsConfiguration('vcCodeRehab')) {
         config = getConfig();
         detector.updateChunkSize(config.manualTypingMaxChunkSize);
 
@@ -87,11 +87,11 @@ export function activate(context: vscode.ExtensionContext): void {
 
   // --- Commands ---
   context.subscriptions.push(
-    vscode.commands.registerCommand('vcCodingLimitation.showStats', showStats)
+    vscode.commands.registerCommand('vcCodeRehab.showStats', showStats)
   );
 
   context.subscriptions.push(
-    vscode.commands.registerCommand('vcCodingLimitation.resetToday', async () => {
+    vscode.commands.registerCommand('vcCodeRehab.resetToday', async () => {
       await storage.resetToday();
       notifier.resetDay();
       decorator.clearLimitReached();
@@ -104,7 +104,7 @@ export function activate(context: vscode.ExtensionContext): void {
   );
 
   context.subscriptions.push(
-    vscode.commands.registerCommand('vcCodingLimitation.pauseTracking', () => {
+    vscode.commands.registerCommand('vcCodeRehab.pauseTracking', () => {
       notifier.pause(60 * 60 * 1000);
       decorator.clearLimitReached();
       vscode.window.showInformationMessage('VC Coding Limitation: Tracking paused for 1 hour.');
@@ -112,7 +112,7 @@ export function activate(context: vscode.ExtensionContext): void {
   );
 
   context.subscriptions.push(
-    vscode.commands.registerCommand('vcCodingLimitation.resumeTracking', () => {
+    vscode.commands.registerCommand('vcCodeRehab.resumeTracking', () => {
       notifier.resume();
       const record = storage.getTodayRecord();
       if (record.manualTokens >= config.dailyTokenLimit) {
