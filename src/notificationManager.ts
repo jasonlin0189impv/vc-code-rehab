@@ -39,7 +39,7 @@ export class NotificationManager {
       onShowStats();
     } else if (selection === 'Pause 1h') {
       this.pause(60 * 60 * 1000);
-      vscode.window.showInformationMessage('VC Coding Limitation: Tracking paused for 1 hour.');
+      vscode.window.showInformationMessage('Code Rehab: Tracking paused for 1 hour.');
     }
   }
 

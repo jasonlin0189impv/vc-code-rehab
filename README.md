@@ -33,7 +33,7 @@ Every keystroke is analysed. Small insertions (≤ 5 characters) are counted as 
 
 ## Stats View
 
-Click the status bar item or run **VC Coding Limitation: Show Token Stats** to open the stats panel.
+Click the status bar item or run **Code Rehab: Show Token Stats** to open the stats panel.
 
 <img src="https://raw.githubusercontent.com/jasonlin0189impv/vc-code-rehab/main/images/stats-preview.png" width="600" alt="Stats View"/>
 
@@ -51,7 +51,7 @@ The panel shows:
 
 ## Configuration
 
-Open **Settings** (`Cmd+,`) and search for `vcCodingLimitation`:
+Open **Settings** (`Cmd+,`) and search for `vcCodeRehab`:
 
 | Setting | Default | Description |
 |---------|---------|-------------|
@@ -64,7 +64,7 @@ Open **Settings** (`Cmd+,`) and search for `vcCodingLimitation`:
 
 ## Commands
 
-Open the Command Palette (`Cmd+Shift+P`) and search for **VC Coding Limitation**:
+Open the Command Palette (`Cmd+Shift+P`) and search for **Code Rehab**:
 
 - **Show Token Stats** — open the stats panel
 - **Reset Today's Count** — clear today's token count

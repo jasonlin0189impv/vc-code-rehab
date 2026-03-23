@@ -99,7 +99,7 @@ export function activate(context: vscode.ExtensionContext): void {
       if (config.showStatusBar) {
         statusBar.update(record, config.dailyTokenLimit);
       }
-      vscode.window.showInformationMessage("VC Coding Limitation: Today's token count has been reset.");
+      vscode.window.showInformationMessage("Code Rehab: Today's token count has been reset.");
     })
   );
 
@@ -107,7 +107,7 @@ export function activate(context: vscode.ExtensionContext): void {
     vscode.commands.registerCommand('vcCodeRehab.pauseTracking', () => {
       notifier.pause(60 * 60 * 1000);
       decorator.clearLimitReached();
-      vscode.window.showInformationMessage('VC Coding Limitation: Tracking paused for 1 hour.');
+      vscode.window.showInformationMessage('Code Rehab: Tracking paused for 1 hour.');
     })
   );
 
@@ -118,7 +118,7 @@ export function activate(context: vscode.ExtensionContext): void {
       if (record.manualTokens >= config.dailyTokenLimit) {
         decorator.showLimitReached();
       }
-      vscode.window.showInformationMessage('VC Coding Limitation: Tracking resumed.');
+      vscode.window.showInformationMessage('Code Rehab: Tracking resumed.');
     })
   );
 }

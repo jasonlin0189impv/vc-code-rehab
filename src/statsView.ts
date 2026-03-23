@@ -3,7 +3,7 @@ import { DailyRecord } from './types';
 
 export function showStatsView(records: DailyRecord[], limit: number): void {
   const panel = vscode.window.createWebviewPanel(
-    'vcCodingLimitationStats',
+    'vcCodeRehabStats',
     'Coding Token Stats',
     vscode.ViewColumn.Beside,
     { enableScripts: false }
