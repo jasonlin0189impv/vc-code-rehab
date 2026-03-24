@@ -1,7 +1,7 @@
 import * as vscode from 'vscode';
 import { DailyRecord } from './types';
 
-export function showStatsView(records: DailyRecord[], limit: number): void {
+export function showStatsView(records: DailyRecord[], limit: number, limitMode: 'absolute' | 'relative' = 'absolute', relativePct: number = 1.0): void {
   const panel = vscode.window.createWebviewPanel(
     'vcCodeRehabStats',
     'Coding Token Stats',
@@ -9,7 +9,7 @@ export function showStatsView(records: DailyRecord[], limit: number): void {
     { enableScripts: false }
   );
 
-  panel.webview.html = buildHtml(records, limit);
+  panel.webview.html = buildHtml(records, limit, limitMode, relativePct);
 }
 
 function calcStreak(records: DailyRecord[], limit: number): number {
@@ -61,7 +61,7 @@ function calcDaysOverLimit(records: DailyRecord[], limit: number): number {
   return records.filter(r => r.manualTokens >= limit).length;
 }
 
-function buildHtml(records: DailyRecord[], limit: number): string {
+function buildHtml(records: DailyRecord[], limit: number, limitMode: 'absolute' | 'relative', relativePct: number): string {
   const last14 = records.slice(-14);
   const streak = calcStreak(records, limit);
   const bestStreak = calcBestStreak(records, limit);
@@ -111,6 +111,10 @@ function buildHtml(records: DailyRecord[], limit: number): string {
     ? '1 day under limit'
     : `${streak} days under limit`;
 
+  const limitDesc = limitMode === 'relative' 
+    ? `Daily manual limit: ${limit} tokens (Relative Mode: ${relativePct}% of workspace)`
+    : `Daily manual limit: ${limit} tokens (Absolute Mode)`;
+
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -148,7 +152,7 @@ function buildHtml(records: DailyRecord[], limit: number): string {
 </head>
 <body>
   <h2>Coding Token Stats</h2>
-  <p class="subtitle">Daily manual limit: ${limit} tokens &nbsp;|&nbsp; Counting method: chars ÷ 4</p>
+  <p class="subtitle">${limitDesc} &nbsp;|&nbsp; Counting method: chars ÷ 4</p>
 
   <div class="streak-box">
     <div class="streak-num">${streakEmoji} ${streak}</div>
