@@ -11,8 +11,9 @@ Because if you're still hand-writing boilerplate in 2026, you deserve to be inte
 ## Features
 
 - **Daily manual token tracking** — counts every character you type by hand (AI completions don't count)
-- **Smart AI detection** — large insertions from Copilot, Cursor, Claude Code and other AI tools are tracked separately as estimated AI tokens
-- **Persistent daily limit** — set your own limit; the counter resets every day at midnight
+- **Smart AI detection** — large insertions from Copilot, Cursor, Claude Code, etc. are tracked separately as estimated AI tokens
+- **Background AI tracking** — external background file changes (made by AI agents) are automatically caught and counted as AI tokens even when files are closed
+- **Configurable limits (Absolute/Relative)** — set a fixed daily limit or a relative limit based on your workspace size (e.g. 1% of total tokens)
 - **Escalating notifications** — friendly reminder → passive-aggressive nudge → full modal that blocks your screen
 - **Status bar** — live token count always visible, turns red when you've gone too far
 - **Stats view** — 14-day bar chart, streak counter, AI ratio, and more
@@ -55,7 +56,11 @@ Open **Settings** (`Cmd+,`) and search for `vcCodeRehab`:
 
 | Setting | Default | Description |
 |---------|---------|-------------|
-| `dailyTokenLimit` | `1000` | Max manual tokens per day before warnings start |
+| `limitMode` | `absolute` | Use a fixed `absolute` limit or a `relative` limit based on workspace size |
+| `relativeLimitPercentage` | `1.0` | Percentage of total workspace tokens to use as the limit (if mode is `relative`) |
+| `relativeLimitInclude` | `["**/*"]` | Glob patterns for files to include in relative token count |
+| `relativeLimitExclude` | `[...]` | Glob patterns to ignore in relative token count (like `node_modules`, `.git`) |
+| `dailyTokenLimit` | `1000` | Max manual tokens per day before warnings start (if mode is `absolute`) |
 | `tokensPerExtraNotification` | `50` | How many tokens over the limit before the next warning |
 | `manualTypingMaxChunkSize` | `5` | Insertions larger than this are treated as AI/paste |
 | `showStatusBar` | `true` | Show/hide the status bar item |
@@ -70,6 +75,7 @@ Open the Command Palette (`Cmd+Shift+P`) and search for **Code Rehab**:
 - **Reset Today's Count** — clear today's token count
 - **Pause Tracking (1 hour)** — snooze tracking for 60 minutes
 - **Resume Tracking** — resume immediately after a pause
+- **Recalculate Workspace Tokens** — forces a recalculation of the workspace size (useful in Relative mode)
 
 ---
 
