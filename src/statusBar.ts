@@ -6,23 +6,24 @@ export class StatusBarManager {
     this.item.command = 'vcCodeRehab.showStats';
   }
 
-  update(record: DailyRecord, limit: number): void {
+  update(record: DailyRecord, limit: number, limitMode: 'absolute' | 'relative' = 'absolute', relativePct: number = 1.0): void {
     const tokens = record.manualTokens;
     const pct = tokens / limit;
     const aiLabel = record.aiTokens > 0 ? `  |  🤖 ${record.aiTokens}` : '';
+    const modeInfo = limitMode === 'relative' ? `\n(Relative Mode: ${relativePct}% of workspace tokens)` : '';
 
     if (pct >= 1) {
       this.item.text = `$(error) LIMIT REACHED (${tokens})${aiLabel}`;
       this.item.backgroundColor = new vscode.ThemeColor('statusBarItem.errorBackground');
-      this.item.tooltip = `Manual coding limit reached: ${tokens} / ${limit} tokens.\nEstimated AI tokens today: ${record.aiTokens}.\nClick to view stats.`;
+      this.item.tooltip = `Manual coding limit reached: ${tokens} / ${limit} tokens.${modeInfo}\nEstimated AI tokens today: ${record.aiTokens}.\nClick to view stats.`;
     } else if (pct >= 0.8) {
       this.item.text = `$(warning) ${tokens} / ${limit}${aiLabel}`;
       this.item.backgroundColor = new vscode.ThemeColor('statusBarItem.warningBackground');
-      this.item.tooltip = `Approaching manual coding limit: ${tokens} / ${limit} tokens.\nEstimated AI tokens today: ${record.aiTokens}.\nClick to view stats.`;
+      this.item.tooltip = `Approaching manual coding limit: ${tokens} / ${limit} tokens.${modeInfo}\nEstimated AI tokens today: ${record.aiTokens}.\nClick to view stats.`;
     } else {
       this.item.text = `$(keyboard) ${tokens} / ${limit}${aiLabel}`;
       this.item.backgroundColor = undefined;
-      this.item.tooltip = `Manual tokens today: ${tokens} / ${limit}.\nEstimated AI tokens today: ${record.aiTokens}.\nClick to view stats.`;
+      this.item.tooltip = `Manual tokens today: ${tokens} / ${limit}.${modeInfo}\nEstimated AI tokens today: ${record.aiTokens}.\nClick to view stats.`;
     }
 
     this.item.show();

@@ -10,4 +10,8 @@ export interface ExtensionConfig {
   tokensPerExtraNotification: number;
   manualTypingMaxChunkSize: number;
   showStatusBar: boolean;
+  limitMode: 'absolute' | 'relative';
+  relativeLimitPercentage: number;
+  relativeLimitInclude: string[];
+  relativeLimitExclude: string[];
 }

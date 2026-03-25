@@ -2,7 +2,7 @@
   "name": "vc-code-rehab",
   "displayName": "Code Rehab",
   "description": "Track your manual coding tokens and get nagged into using AI. Your daily intervention for hand-written boilerplate.",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "publisher": "jasonlin0189impv",
   "license": "MIT",
   "icon": "images/icon.png",
@@ -14,12 +14,22 @@
   "sponsor": {
     "url": "https://github.com/sponsors/jasonlin0189impv"
   },
-  "keywords": ["ai", "coding", "productivity", "token", "limitation"],
+  "keywords": [
+    "ai",
+    "coding",
+    "productivity",
+    "token",
+    "limitation"
+  ],
   "engines": {
     "vscode": "^1.85.0"
   },
-  "categories": ["Other"],
-  "activationEvents": ["onStartupFinished"],
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
   "main": "./dist/extension.js",
   "contributes": {
     "commands": [
@@ -38,6 +48,10 @@
       {
         "command": "vcCodeRehab.resumeTracking",
         "title": "VC Code Rehab: Resume Tracking"
+      },
+      {
+        "command": "vcCodeRehab.recalculateWorkspace",
+        "title": "VC Code Rehab: Recalculate Workspace Tokens"
       }
     ],
     "configuration": {
@@ -66,6 +80,46 @@
           "type": "boolean",
           "default": true,
           "description": "Show the token count in the status bar."
+        },
+        "vcCodeRehab.limitMode": {
+          "type": "string",
+          "enum": [
+            "absolute",
+            "relative"
+          ],
+          "default": "absolute",
+          "description": "Whether to use an absolute daily token limit or a relative limit based on the workspace token count."
+        },
+        "vcCodeRehab.relativeLimitPercentage": {
+          "type": "number",
+          "default": 1.0,
+          "minimum": 0.01,
+          "maximum": 100.0,
+          "description": "Percentage of total workspace tokens to use as the daily limit when Limit Mode is set to 'relative'."
+        },
+        "vcCodeRehab.relativeLimitInclude": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [
+            "**/*"
+          ],
+          "description": "Glob patterns for files to include in relative token count."
+        },
+        "vcCodeRehab.relativeLimitExclude": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [
+            "**/node_modules/**",
+            "**/.git/**",
+            "**/dist/**",
+            "**/out/**",
+            "**/.vscode/**"
+          ],
+          "description": "Glob patterns for files to exclude from relative token count."
         }
       }
     }
