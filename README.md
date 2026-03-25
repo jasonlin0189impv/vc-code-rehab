@@ -1,5 +1,7 @@
 # Code Rehab
 
+*這份文件有[繁體中文版本 (Traditional Chinese)](README.zh-TW.md)*
+
 > **Stop typing. Let AI do it.** 🤖
 
 The VSCode extension that tracks how much code you *manually* type — and won't stop nagging you once you've hit your daily limit.
