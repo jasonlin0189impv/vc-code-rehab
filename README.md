@@ -20,6 +20,7 @@ Because if you're still hand-writing boilerplate in 2026, you deserve to be inte
 - **Status bar** — live token count always visible, turns red when you've gone too far
 - **Stats view** — 14-day bar chart, streak counter, AI ratio, and more
 - **Pause tracking** — need to refactor manually? Pause for 1 hour without losing your streak
+- **Read-only mode** — completely block manual typing across all files; settings files remain editable
 
 ---
 
@@ -78,6 +79,8 @@ Open the Command Palette (`Cmd+Shift+P`) and search for **Code Rehab**:
 - **Pause Tracking (1 hour)** — snooze tracking for 60 minutes
 - **Resume Tracking** — resume immediately after a pause
 - **Recalculate Workspace Tokens** — forces a recalculation of the workspace size (useful in Relative mode)
+- **Enable Read-Only Mode** — block all manual typing; any keystroke is instantly reverted
+- **Disable Read-Only Mode** — restore normal editing (also accessible by clicking the `$(lock) READ-ONLY` status bar item)
 
 ---
 

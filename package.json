@@ -2,7 +2,7 @@
   "name": "vc-code-rehab",
   "displayName": "Code Rehab",
   "description": "Track your manual coding tokens and get nagged into using AI. Your daily intervention for hand-written boilerplate.",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "publisher": "jasonlin0189impv",
   "license": "MIT",
   "icon": "images/icon.png",
@@ -52,6 +52,14 @@
       {
         "command": "vcCodeRehab.recalculateWorkspace",
         "title": "VC Code Rehab: Recalculate Workspace Tokens"
+      },
+      {
+        "command": "vcCodeRehab.enableReadOnly",
+        "title": "VC Code Rehab: Enable Read-Only Mode"
+      },
+      {
+        "command": "vcCodeRehab.disableReadOnly",
+        "title": "VC Code Rehab: Disable Read-Only Mode"
       }
     ],
     "configuration": {

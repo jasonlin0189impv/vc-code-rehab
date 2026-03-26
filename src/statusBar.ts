@@ -29,6 +29,14 @@ export class StatusBarManager {
     this.item.show();
   }
 
+  showReadOnly(): void {
+    this.item.text = '$(lock) READ-ONLY';
+    this.item.backgroundColor = new vscode.ThemeColor('statusBarItem.warningBackground');
+    this.item.tooltip = 'Code Rehab: Read-only mode is active. Typing is blocked.\nClick to disable.';
+    this.item.command = 'vcCodeRehab.disableReadOnly';
+    this.item.show();
+  }
+
   hide(): void {
     this.item.hide();
   }

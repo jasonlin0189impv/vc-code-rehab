@@ -9,11 +9,35 @@ import { DecorationManager } from './decorationManager';
 import { showStatsView } from './statsView';
 import { countWorkspaceTokens } from './workspaceCounter';
 
+function isSettingsFile(document: vscode.TextDocument): boolean {
+  // User settings (vscode-userdata scheme) or workspace .vscode/settings.json
+  return document.uri.scheme === 'vscode-userdata' ||
+    document.uri.fsPath.replace(/\\/g, '/').includes('/.vscode/settings.json');
+}
+
 export function activate(context: vscode.ExtensionContext): void {
   let config = getConfig();
   let effectiveDailyLimit = config.dailyTokenLimit;
   let isRecalculating = false;
   let fileSizes = new Map<string, number>();
+  let isReadOnly = false;
+  let isReverting = false;
+  const documentSnapshots = new Map<string, string>();
+
+  // Initialize snapshots for already-open documents
+  for (const doc of vscode.workspace.textDocuments) {
+    documentSnapshots.set(doc.uri.toString(), doc.getText());
+  }
+  context.subscriptions.push(
+    vscode.workspace.onDidOpenTextDocument((doc) => {
+      documentSnapshots.set(doc.uri.toString(), doc.getText());
+    })
+  );
+  context.subscriptions.push(
+    vscode.workspace.onDidCloseTextDocument((doc) => {
+      documentSnapshots.delete(doc.uri.toString());
+    })
+  );
 
   const storage = new Storage(context);
   const detector = new ChangeDetector(config.manualTypingMaxChunkSize);
@@ -59,6 +83,40 @@ export function activate(context: vscode.ExtensionContext): void {
   // --- Hot path: track every text document change ---
   context.subscriptions.push(
     vscode.workspace.onDidChangeTextDocument(async (event) => {
+      if (isReverting) return;
+
+      const docKey = event.document.uri.toString();
+
+      // Read-only mode: revert any fresh edits in non-settings files
+      if (isReadOnly && !isSettingsFile(event.document)) {
+        if (event.reason === undefined && event.contentChanges.length > 0) {
+          const snapshot = documentSnapshots.get(docKey);
+          const editor = vscode.window.visibleTextEditors.find(e => e.document === event.document);
+          if (snapshot !== undefined && editor) {
+            const savedSelections = editor.selections;
+            isReverting = true;
+            try {
+              await editor.edit((editBuilder) => {
+                const fullRange = new vscode.Range(
+                  new vscode.Position(0, 0),
+                  event.document.positionAt(event.document.getText().length)
+                );
+                editBuilder.replace(fullRange, snapshot);
+              }, { undoStopBefore: false, undoStopAfter: false });
+              editor.selections = savedSelections;
+            } finally {
+              isReverting = false;
+            }
+          }
+        } else {
+          // Undo/redo while in read-only mode — keep snapshot in sync
+          documentSnapshots.set(docKey, event.document.getText());
+        }
+        return;
+      }
+
+      documentSnapshots.set(docKey, event.document.getText());
+
       if (notifier.isPaused()) {
         return;
       }
@@ -209,6 +267,27 @@ export function activate(context: vscode.ExtensionContext): void {
       vscode.window.showInformationMessage('Code Rehab: Recalculating workspace tokens...');
       await updateEffectiveLimit();
       vscode.window.showInformationMessage(`Code Rehab: Finished recalculating. New daily limit is ${effectiveDailyLimit}.`);
+    })
+  );
+
+  context.subscriptions.push(
+    vscode.commands.registerCommand('vcCodeRehab.enableReadOnly', () => {
+      isReadOnly = true;
+      statusBar.showReadOnly();
+      vscode.window.showInformationMessage('Code Rehab: Read-only mode enabled. Typing is blocked (settings files still editable).');
+    })
+  );
+
+  context.subscriptions.push(
+    vscode.commands.registerCommand('vcCodeRehab.disableReadOnly', () => {
+      isReadOnly = false;
+      const record = storage.getTodayRecord();
+      if (config.showStatusBar) {
+        statusBar.update(record, effectiveDailyLimit, config.limitMode, config.relativeLimitPercentage);
+      } else {
+        statusBar.hide();
+      }
+      vscode.window.showInformationMessage('Code Rehab: Read-only mode disabled.');
     })
   );
 }
